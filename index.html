@@ -11,24 +11,24 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', Roboto, sans-serif;
             background: linear-gradient(135deg, #faf7ff 0%, #f0f4ff 50%, #e0e7ff 100%);
             min-height: 100vh;
             padding: 1rem;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .header {
             text-align: center;
             margin-bottom: 2rem;
         }
-        
+
         .header-icon {
             display: inline-flex;
             align-items: center;
@@ -39,13 +39,13 @@
             border-radius: 1rem;
             margin-bottom: 1rem;
         }
-        
+
         .header-icon svg {
             width: 32px;
             height: 32px;
             color: white;
         }
-        
+
         .header h1 {
             font-size: 2.5rem;
             font-weight: bold;
@@ -55,24 +55,24 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
         }
-        
+
         .header p {
             color: #6b7280;
             font-size: 1.125rem;
         }
-        
+
         .main-card {
             background: white;
             border-radius: 1.5rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             overflow: hidden;
         }
-        
+
         .tabs {
             display: flex;
             border-bottom: 1px solid #e5e7eb;
         }
-        
+
         .tab-btn {
             flex: 1;
             display: flex;
@@ -88,69 +88,69 @@
             transition: all 0.2s;
             color: #6b7280;
         }
-        
+
         .tab-btn:hover {
             color: #374151;
             background-color: #f9fafb;
         }
-        
+
         .tab-btn.active {
             color: #9333ea;
             background-color: #faf5ff;
             border-bottom: 2px solid #9333ea;
         }
-        
+
         .tab-btn svg {
             width: 16px;
             height: 16px;
         }
-        
+
         .content {
             padding: 2rem;
         }
-        
+
         .grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 2rem;
         }
-        
+
         @media (min-width: 1024px) {
             .grid {
                 grid-template-columns: 1fr 1fr;
             }
         }
-        
+
         .form-section {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
         }
-        
+
         .section-title {
             font-size: 1.5rem;
             font-weight: 600;
             color: #1f2937;
             margin-bottom: 1rem;
         }
-        
+
         .form-group {
             display: flex;
             flex-direction: column;
             gap: 1rem;
         }
-        
+
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
         }
-        
+
         .input-group {
             display: flex;
             flex-direction: column;
         }
-        
+
         .label {
             display: block;
             font-size: 0.875rem;
@@ -158,7 +158,7 @@
             color: #374151;
             margin-bottom: 0.5rem;
         }
-        
+
         .input, .textarea {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -167,24 +167,24 @@
             font-size: 1rem;
             transition: all 0.2s;
         }
-        
+
         .input:focus, .textarea:focus {
             outline: none;
             border-color: #9333ea;
             box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
         }
-        
+
         .textarea {
             resize: none;
             min-height: 100px;
         }
-        
+
         .help-text {
             font-size: 0.75rem;
             color: #6b7280;
             margin-top: 0.25rem;
         }
-        
+
         .upload-area {
             border: 2px dashed #d1d5db;
             border-radius: 0.75rem;
@@ -193,18 +193,18 @@
             cursor: pointer;
             transition: border-color 0.2s;
         }
-        
+
         .upload-area:hover {
             border-color: #9333ea;
         }
-        
+
         .upload-area svg {
             width: 32px;
             height: 32px;
             color: #9ca3af;
             margin: 0 auto 0.5rem;
         }
-        
+
         .upload-btn {
             background: #f3e8ff;
             color: #7c3aed;
@@ -216,30 +216,30 @@
             cursor: pointer;
             transition: background-color 0.2s;
         }
-        
+
         .upload-btn:hover {
             background: #e9d5ff;
         }
-        
+
         .logo-preview {
             border: 1px solid #d1d5db;
             border-radius: 0.75rem;
             padding: 1rem;
         }
-        
+
         .logo-preview-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 0.75rem;
         }
-        
+
         .logo-info {
             display: flex;
             align-items: center;
             gap: 0.75rem;
         }
-        
+
         .logo-img {
             width: 48px;
             height: 48px;
@@ -247,18 +247,18 @@
             border-radius: 0.5rem;
             border: 1px solid #e5e7eb;
         }
-        
+
         .logo-name {
             font-size: 0.875rem;
             font-weight: 500;
             color: #374151;
         }
-        
+
         .logo-filename {
             font-size: 0.75rem;
             color: #6b7280;
         }
-        
+
         .remove-btn {
             padding: 0.5rem;
             background: none;
@@ -268,24 +268,24 @@
             border-radius: 0.5rem;
             transition: all 0.2s;
         }
-        
+
         .remove-btn:hover {
             color: #ef4444;
             background: #fef2f2;
         }
-        
+
         .slider-group {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
         }
-        
+
         .slider-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
-        
+
         .slider {
             width: 100%;
             height: 8px;
@@ -295,7 +295,7 @@
             -webkit-appearance: none;
             cursor: pointer;
         }
-        
+
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 20px;
@@ -304,7 +304,7 @@
             background: #9333ea;
             cursor: pointer;
         }
-        
+
         .slider::-moz-range-thumb {
             width: 20px;
             height: 20px;
@@ -313,7 +313,7 @@
             cursor: pointer;
             border: none;
         }
-        
+
         .btn {
             padding: 0.75rem 1.5rem;
             border: none;
@@ -327,33 +327,33 @@
             justify-content: center;
             gap: 0.5rem;
         }
-        
+
         .btn-secondary {
             background: #f3f4f6;
             color: #374151;
         }
-        
+
         .btn-secondary:hover {
             background: #e5e7eb;
         }
-        
+
         .btn-primary {
             background: linear-gradient(135deg, #9333ea, #3b82f6);
             color: white;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
-        
+
         .btn-primary:hover {
             background: linear-gradient(135deg, #7c3aed, #2563eb);
         }
-        
+
         .qr-section {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 1.5rem;
         }
-        
+
         .qr-container {
             background: #f9fafb;
             border-radius: 1rem;
@@ -361,32 +361,32 @@
             width: 100%;
             max-width: 400px;
         }
-        
+
         .qr-placeholder {
             text-align: center;
             padding: 4rem 0;
         }
-        
+
         .qr-placeholder svg {
             width: 64px;
             height: 64px;
             color: #d1d5db;
             margin: 0 auto 1rem;
         }
-        
+
         .qr-placeholder p {
             color: #6b7280;
         }
-        
+
         .qr-display {
             text-align: center;
         }
-        
+
         .qr-canvas {
             display: flex;
             justify-content: center;
         }
-        
+
         .qr-canvas canvas {
             max-width: 100%;
             height: auto;
@@ -394,36 +394,36 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             background: white;
         }
-        
+
         .qr-help {
             font-size: 0.875rem;
             color: #6b7280;
             margin-top: 1rem;
         }
-        
+
         .qr-actions {
             display: flex;
             gap: 1rem;
             width: 100%;
             max-width: 400px;
         }
-        
+
         .qr-actions .btn {
             flex: 1;
         }
-        
+
         .qr-data {
             width: 100%;
             max-width: 400px;
         }
-        
+
         .qr-data-title {
             font-size: 0.875rem;
             font-weight: 500;
             color: #374151;
             margin-bottom: 0.5rem;
         }
-        
+
         .qr-data-content {
             background: #f3f4f6;
             border-radius: 0.5rem;
@@ -433,23 +433,23 @@
             max-height: 8rem;
             overflow-y: auto;
         }
-        
+
         .qr-data-content pre {
             white-space: pre-wrap;
             word-break: break-words;
         }
-        
+
         .footer {
             text-align: center;
             margin-top: 2rem;
             color: #6b7280;
             font-size: 0.875rem;
         }
-        
+
         .hidden {
             display: none !important;
         }
-        
+
         .optional {
             color: #6b7280;
             font-size: 0.75rem;
@@ -511,7 +511,7 @@
                             <!-- Logo Upload Section -->
                             <div class="input-group">
                                 <label class="label">Upload Logo <span class="optional">(optional)</span></label>
-                                
+
                                 <div id="logoUploadArea" class="upload-area">
                                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
@@ -536,7 +536,7 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    
+
                                     <!-- Logo Size Slider -->
                                     <div class="slider-group">
                                         <div class="slider-header">
@@ -594,7 +594,7 @@
                     <!-- QR Code Display Section -->
                     <div class="qr-section">
                         <h2 class="section-title">Generated QR Code</h2>
-                        
+
                         <div class="qr-container">
                             <div id="qrPlaceholder" class="qr-placeholder">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -615,7 +615,7 @@
                                 </svg>
                                 Download
                             </button>
-                            
+
                             <button id="copyBtn" class="btn btn-secondary">
                                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
@@ -657,18 +657,18 @@
 
         function switchTab(tab) {
             activeTab = tab;
-            
+
             // Update tab buttons
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             document.getElementById(tab + 'Tab').classList.add('active');
-            
+
             // Update content
             document.getElementById('urlContent').classList.toggle('hidden', tab !== 'url');
             document.getElementById('textContent').classList.toggle('hidden', tab !== 'text');
             document.getElementById('contactContent').classList.toggle('hidden', tab !== 'contact');
-            
+
             // Update title
             const titles = {
                 url: 'Enter URL',
@@ -676,7 +676,7 @@
                 contact: 'Contact Information'
             };
             document.getElementById('tabTitle').textContent = titles[tab];
-            
+
             generateQR();
         }
 
@@ -749,7 +749,7 @@
             document.getElementById('email').value = '';
             document.getElementById('organization').value = '';
             document.getElementById('website').value = '';
-            
+
             if (logoFile) {
                 logoFile = null;
                 logoPreview = null;
@@ -761,7 +761,7 @@
                 document.getElementById('logoPreview').classList.add('hidden');
                 updateSliderBackground();
             }
-            
+
             generateQR();
         });
 
@@ -794,7 +794,7 @@ END:VCARD`;
 
         function generateQR() {
             let data = '';
-            
+
             switch (activeTab) {
                 case 'url':
                     data = formatUrl(document.getElementById('urlInput').value);
@@ -828,10 +828,10 @@ END:VCARD`;
         function createQR(text) {
             const container = document.getElementById('qrContainer');
             container.innerHTML = '';
-            
+
             const canvas = document.createElement('canvas');
             container.appendChild(canvas);
-            
+
             const qr = new QRious({
                 element: canvas,
                 value: text,
@@ -840,11 +840,11 @@ END:VCARD`;
                 foreground: 'black',
                 level: 'H'
             });
-            
+
             if (activeTab === 'url' && logoFile) {
                 addLogoToQR(canvas);
             }
-            
+
             document.getElementById('qrPlaceholder').classList.add('hidden');
             document.getElementById('qrDisplay').classList.remove('hidden');
             document.getElementById('qrActions').classList.remove('hidden');
@@ -855,20 +855,20 @@ END:VCARD`;
         function addLogoToQR(canvas) {
             const ctx = canvas.getContext('2d');
             const img = new Image();
-            
+
             img.onload = function() {
                 const logoSizePixels = canvas.width * (logoSize / 100);
                 const x = (canvas.width - logoSizePixels) / 2;
                 const y = (canvas.height - logoSizePixels) / 2;
-                
+
                 ctx.fillStyle = 'white';
                 ctx.beginPath();
                 ctx.arc(canvas.width / 2, canvas.height / 2, logoSizePixels / 2 + 5, 0, 2 * Math.PI);
                 ctx.fill();
-                
+
                 ctx.drawImage(img, x, y, logoSizePixels, logoSizePixels);
             };
-            
+
             img.src = logoPreview;
         }
 
