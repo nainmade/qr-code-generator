@@ -4,510 +4,909 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Generator</title>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #faf7ff 0%, #f0f4ff 50%, #e0e7ff 100%);
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #9333ea, #3b82f6);
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .header-icon svg {
+            width: 32px;
+            height: 32px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #9333ea, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: #6b7280;
+            font-size: 1.125rem;
+        }
+        
+        .main-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            color: #6b7280;
+        }
+        
+        .tab-btn:hover {
+            color: #374151;
+            background-color: #f9fafb;
+        }
+        
+        .tab-btn.active {
+            color: #9333ea;
+            background-color: #faf5ff;
+            border-bottom: 2px solid #9333ea;
+        }
+        
+        .tab-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        @media (min-width: 1024px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        
+        .input, .textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .input:focus, .textarea:focus {
+            outline: none;
+            border-color: #9333ea;
+            box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+        }
+        
+        .textarea {
+            resize: none;
+            min-height: 100px;
+        }
+        
+        .help-text {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+        
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        
+        .upload-area:hover {
+            border-color: #9333ea;
+        }
+        
+        .upload-area svg {
+            width: 32px;
+            height: 32px;
+            color: #9ca3af;
+            margin: 0 auto 0.5rem;
+        }
+        
+        .upload-btn {
+            background: #f3e8ff;
+            color: #7c3aed;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .upload-btn:hover {
+            background: #e9d5ff;
+        }
+        
+        .logo-preview {
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            padding: 1rem;
+        }
+        
+        .logo-preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        
+        .logo-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .logo-img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .logo-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        .logo-filename {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        .remove-btn {
+            padding: 0.5rem;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+        
+        .remove-btn:hover {
+            color: #ef4444;
+            background: #fef2f2;
+        }
+        
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .slider-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #e5e7eb;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #9333ea;
+            cursor: pointer;
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #9333ea;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+        
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #9333ea, #3b82f6);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #7c3aed, #2563eb);
+        }
+        
+        .qr-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .qr-container {
+            background: #f9fafb;
+            border-radius: 1rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .qr-placeholder {
+            text-align: center;
+            padding: 4rem 0;
+        }
+        
+        .qr-placeholder svg {
+            width: 64px;
+            height: 64px;
+            color: #d1d5db;
+            margin: 0 auto 1rem;
+        }
+        
+        .qr-placeholder p {
+            color: #6b7280;
+        }
+        
+        .qr-display {
+            text-align: center;
+        }
+        
+        .qr-canvas {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .qr-canvas canvas {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+        
+        .qr-help {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 1rem;
+        }
+        
+        .qr-actions {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .qr-actions .btn {
+            flex: 1;
+        }
+        
+        .qr-data {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .qr-data-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        
+        .qr-data-content {
+            background: #f3f4f6;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            font-size: 0.75rem;
+            color: #6b7280;
+            max-height: 8rem;
+            overflow-y: auto;
+        }
+        
+        .qr-data-content pre {
+            white-space: pre-wrap;
+            word-break: break-words;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .optional {
+            color: #6b7280;
+            font-size: 0.75rem;
+        }
+    </style>
 </head>
 <body>
-    <div id="root"></div>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V6a1 1 0 00-1-1H5a1 1 0 00-1 1v1a1 1 0 001 1zm12 0h2a1 1 0 001-1V6a1 1 0 00-1-1h-2a1 1 0 00-1 1v1a1 1 0 001 1zM5 20h2a1 1 0 001-1v-1a1 1 0 00-1-1H5a1 1 0 00-1 1v1a1 1 0 001 1z"></path>
+                </svg>
+            </div>
+            <h1>QR Code Generator</h1>
+            <p>Generate QR codes for URLs, text, and contact information</p>
+        </div>
 
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
-        const { QrCode, Link, MessageSquare, User, Download, Copy, Check, Upload, X } = lucide;
+        <!-- Main Container -->
+        <div class="main-card">
+            <!-- Tab Navigation -->
+            <div class="tabs">
+                <button id="urlTab" class="tab-btn active">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                    </svg>
+                    URL
+                </button>
+                <button id="textTab" class="tab-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                    Text
+                </button>
+                <button id="contactTab" class="tab-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    Contact
+                </button>
+            </div>
 
-        const TRANSLATIONS = {
-          "en-US": {
-            "appTitle": "QR Code Generator",
-            "appDescription": "Generate QR codes for URLs, text, and contact information",
-            "urlTab": "URL",
-            "textTab": "Text",
-            "contactTab": "Contact",
-            "enterUrl": "Enter URL",
-            "enterText": "Enter Text",
-            "contactInformation": "Contact Information",
-            "websiteUrl": "Website URL",
-            "urlPlaceholder": "example.com or https://example.com",
-            "urlHelp": "Enter a website URL. If you don't include http://, we'll add https:// automatically.",
-            "uploadLogo": "Upload Logo",
-            "logoHelp": "Upload your brand logo to embed in the QR code center",
-            "removeLogo": "Remove Logo",
-            "logoUploaded": "Logo uploaded",
-            "logoSize": "Logo Size",
-            "logoSizeHelp": "Adjust the size of your logo in the QR code",
-            "textContent": "Text Content",
-            "textPlaceholder": "Enter any text to generate QR code...",
-            "firstName": "First Name",
-            "firstNamePlaceholder": "John",
-            "lastName": "Last Name",
-            "lastNamePlaceholder": "Doe",
-            "phoneNumber": "Phone Number",
-            "phonePlaceholder": "+1 (555) 123-4567",
-            "emailAddress": "Email Address",
-            "emailPlaceholder": "john.doe@example.com",
-            "organization": "Organization",
-            "organizationPlaceholder": "Company Name",
-            "website": "Website",
-            "websitePlaceholder": "https://example.com",
-            "clearAllFields": "Clear All Fields",
-            "generatedQrCode": "Generated QR Code",
-            "scanQrCode": "Scan this QR code with your device",
-            "fillFormPrompt": "Fill in the form to generate your QR code",
-            "download": "Download",
-            "copyData": "Copy Data",
-            "copied": "Copied!",
-            "qrCodeData": "QR Code Data:",
-            "footerText": "Generate QR codes instantly • No data stored • Free to use",
-            "qrCodeAlt": "Generated QR Code",
-            "optional": "optional"
-          }
-        };
+            <!-- Content -->
+            <div class="content">
+                <div class="grid">
+                    <!-- Input Section -->
+                    <div class="form-section">
+                        <h2 id="tabTitle" class="section-title">Enter URL</h2>
 
-        const locale = 'en-US';
-        const t = (key) => TRANSLATIONS[locale]?.[key] || key;
+                        <!-- URL Tab Content -->
+                        <div id="urlContent" class="form-group">
+                            <div class="input-group">
+                                <label class="label">Website URL</label>
+                                <input type="url" id="urlInput" class="input" placeholder="example.com or https://example.com">
+                                <div class="help-text">Enter a website URL. If you don't include http://, we'll add https:// automatically.</div>
+                            </div>
 
-        const QRCodeGenerator = () => {
-          const [activeTab, setActiveTab] = useState('url');
-          const [qrData, setQrData] = useState('');
-          const [copied, setCopied] = useState(false);
-          const qrContainerRef = useRef(null);
-          const logoInputRef = useRef(null);
-          
-          const [urlInput, setUrlInput] = useState('');
-          const [textInput, setTextInput] = useState('');
-          const [contactInfo, setContactInfo] = useState({
-            firstName: '',
-            lastName: '',
-            phone: '',
-            email: '',
-            organization: '',
-            url: ''
-          });
-          
-          const [logoFile, setLogoFile] = useState(null);
-          const [logoPreview, setLogoPreview] = useState(null);
-          const [logoSize, setLogoSize] = useState(20);
+                            <!-- Logo Upload Section -->
+                            <div class="input-group">
+                                <label class="label">Upload Logo <span class="optional">(optional)</span></label>
+                                
+                                <div id="logoUploadArea" class="upload-area">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                    </svg>
+                                    <p style="margin: 0.5rem 0;">Upload your brand logo to embed in the QR code center</p>
+                                    <button type="button" id="uploadBtn" class="upload-btn">Upload Logo</button>
+                                    <input type="file" id="logoInput" accept="image/*" style="display: none;">
+                                </div>
 
-          const generateQRCode = async (text) => {
-            if (!text.trim()) {
-              if (qrContainerRef.current) {
-                qrContainerRef.current.innerHTML = '';
-              }
-              return;
+                                <div id="logoPreview" class="logo-preview hidden">
+                                    <div class="logo-preview-header">
+                                        <div class="logo-info">
+                                            <img id="logoImg" class="logo-img">
+                                            <div>
+                                                <div class="logo-name">Logo uploaded</div>
+                                                <div id="logoName" class="logo-filename"></div>
+                                            </div>
+                                        </div>
+                                        <button id="removeLogo" class="remove-btn">
+                                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Logo Size Slider -->
+                                    <div class="slider-group">
+                                        <div class="slider-header">
+                                            <label class="label" style="margin: 0;">Logo Size</label>
+                                            <span id="logoSizeValue" class="help-text">20%</span>
+                                        </div>
+                                        <input type="range" id="logoSizeSlider" min="20" max="40" value="20" class="slider">
+                                        <div class="help-text">Adjust the size of your logo in the QR code</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Text Tab Content -->
+                        <div id="textContent" class="form-group hidden">
+                            <div class="input-group">
+                                <label class="label">Text Content</label>
+                                <textarea id="textInput" class="textarea" placeholder="Enter any text to generate QR code..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Contact Tab Content -->
+                        <div id="contactContent" class="form-group hidden">
+                            <div class="form-row">
+                                <div class="input-group">
+                                    <label class="label">First Name</label>
+                                    <input type="text" id="firstName" class="input" placeholder="John">
+                                </div>
+                                <div class="input-group">
+                                    <label class="label">Last Name</label>
+                                    <input type="text" id="lastName" class="input" placeholder="Doe">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Phone Number</label>
+                                <input type="tel" id="phone" class="input" placeholder="+1 (555) 123-4567">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Email Address</label>
+                                <input type="email" id="email" class="input" placeholder="john.doe@example.com">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Organization</label>
+                                <input type="text" id="organization" class="input" placeholder="Company Name">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Website</label>
+                                <input type="url" id="website" class="input" placeholder="https://example.com">
+                            </div>
+                        </div>
+
+                        <button id="clearBtn" class="btn btn-secondary">Clear All Fields</button>
+                    </div>
+
+                    <!-- QR Code Display Section -->
+                    <div class="qr-section">
+                        <h2 class="section-title">Generated QR Code</h2>
+                        
+                        <div class="qr-container">
+                            <div id="qrPlaceholder" class="qr-placeholder">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V6a1 1 0 00-1-1H5a1 1 0 00-1 1v1a1 1 0 001 1zm12 0h2a1 1 0 001-1V6a1 1 0 00-1-1h-2a1 1 0 00-1 1v1a1 1 0 001 1zM5 20h2a1 1 0 001-1v-1a1 1 0 00-1-1H5a1 1 0 00-1 1v1a1 1 0 001 1z"></path>
+                                </svg>
+                                <p>Fill in the form to generate your QR code</p>
+                            </div>
+                            <div id="qrDisplay" class="qr-display hidden">
+                                <div id="qrContainer" class="qr-canvas"></div>
+                                <div class="qr-help">Scan this QR code with your device</div>
+                            </div>
+                        </div>
+
+                        <div id="qrActions" class="qr-actions hidden">
+                            <button id="downloadBtn" class="btn btn-primary">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Download
+                            </button>
+                            
+                            <button id="copyBtn" class="btn btn-secondary">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                                Copy Data
+                            </button>
+                        </div>
+
+                        <div id="qrDataDisplay" class="qr-data hidden">
+                            <div class="qr-data-title">QR Code Data:</div>
+                            <div class="qr-data-content">
+                                <pre id="qrDataText"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Generate QR codes instantly • No data stored • Free to use</p>
+        </div>
+    </div>
+
+    <script>
+        let activeTab = 'url';
+        let logoFile = null;
+        let logoPreview = null;
+        let logoSize = 20;
+        let currentQrData = '';
+
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabId = this.id.replace('Tab', '');
+                switchTab(tabId);
+            });
+        });
+
+        function switchTab(tab) {
+            activeTab = tab;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tab + 'Tab').classList.add('active');
+            
+            // Update content
+            document.getElementById('urlContent').classList.toggle('hidden', tab !== 'url');
+            document.getElementById('textContent').classList.toggle('hidden', tab !== 'text');
+            document.getElementById('contactContent').classList.toggle('hidden', tab !== 'contact');
+            
+            // Update title
+            const titles = {
+                url: 'Enter URL',
+                text: 'Enter Text',
+                contact: 'Contact Information'
+            };
+            document.getElementById('tabTitle').textContent = titles[tab];
+            
+            generateQR();
+        }
+
+        // Logo upload functionality
+        document.getElementById('uploadBtn').addEventListener('click', () => {
+            document.getElementById('logoInput').click();
+        });
+
+        document.getElementById('logoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoPreview = e.target.result;
+                    logoFile = file;
+                    document.getElementById('logoImg').src = logoPreview;
+                    document.getElementById('logoName').textContent = file.name;
+                    document.getElementById('logoUploadArea').classList.add('hidden');
+                    document.getElementById('logoPreview').classList.remove('hidden');
+                    generateQR();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('removeLogo').addEventListener('click', () => {
+            logoFile = null;
+            logoPreview = null;
+            logoSize = 20;
+            document.getElementById('logoInput').value = '';
+            document.getElementById('logoSizeSlider').value = 20;
+            document.getElementById('logoSizeValue').textContent = '20%';
+            document.getElementById('logoUploadArea').classList.remove('hidden');
+            document.getElementById('logoPreview').classList.add('hidden');
+            updateSliderBackground();
+            generateQR();
+        });
+
+        // Logo size slider
+        document.getElementById('logoSizeSlider').addEventListener('input', function() {
+            logoSize = parseInt(this.value);
+            document.getElementById('logoSizeValue').textContent = logoSize + '%';
+            updateSliderBackground();
+            generateQR();
+        });
+
+        function updateSliderBackground() {
+            const slider = document.getElementById('logoSizeSlider');
+            const percentage = ((logoSize - 20) / 20) * 100;
+            slider.style.background = `linear-gradient(to right, #9333ea 0%, #9333ea ${percentage}%, #e5e7eb ${percentage}%, #e5e7eb 100%)`;
+        }
+
+        // Input event listeners
+        document.getElementById('urlInput').addEventListener('input', generateQR);
+        document.getElementById('textInput').addEventListener('input', generateQR);
+        document.getElementById('firstName').addEventListener('input', generateQR);
+        document.getElementById('lastName').addEventListener('input', generateQR);
+        document.getElementById('phone').addEventListener('input', generateQR);
+        document.getElementById('email').addEventListener('input', generateQR);
+        document.getElementById('organization').addEventListener('input', generateQR);
+        document.getElementById('website').addEventListener('input', generateQR);
+
+        // Clear button
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            document.getElementById('urlInput').value = '';
+            document.getElementById('textInput').value = '';
+            document.getElementById('firstName').value = '';
+            document.getElementById('lastName').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('organization').value = '';
+            document.getElementById('website').value = '';
+            
+            if (logoFile) {
+                logoFile = null;
+                logoPreview = null;
+                logoSize = 20;
+                document.getElementById('logoInput').value = '';
+                document.getElementById('logoSizeSlider').value = 20;
+                document.getElementById('logoSizeValue').textContent = '20%';
+                document.getElementById('logoUploadArea').classList.remove('hidden');
+                document.getElementById('logoPreview').classList.add('hidden');
+                updateSliderBackground();
+            }
+            
+            generateQR();
+        });
+
+        function formatUrl(url) {
+            if (!url.trim()) return '';
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                return 'https://' + url;
+            }
+            return url;
+        }
+
+        function generateVCard() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const organization = document.getElementById('organization').value;
+            const website = document.getElementById('website').value;
+
+            return `BEGIN:VCARD
+VERSION:3.0
+FN:${firstName} ${lastName}
+N:${lastName};${firstName};;;
+ORG:${organization}
+TEL:${phone}
+EMAIL:${email}
+URL:${website}
+END:VCARD`;
+        }
+
+        function generateQR() {
+            let data = '';
+            
+            switch (activeTab) {
+                case 'url':
+                    data = formatUrl(document.getElementById('urlInput').value);
+                    break;
+                case 'text':
+                    data = document.getElementById('textInput').value;
+                    break;
+                case 'contact':
+                    const firstName = document.getElementById('firstName').value;
+                    const lastName = document.getElementById('lastName').value;
+                    const phone = document.getElementById('phone').value;
+                    const email = document.getElementById('email').value;
+                    if (firstName || lastName || phone || email) {
+                        data = generateVCard();
+                    }
+                    break;
             }
 
-            createQR(text);
-          };
+            if (!data.trim()) {
+                document.getElementById('qrPlaceholder').classList.remove('hidden');
+                document.getElementById('qrDisplay').classList.add('hidden');
+                document.getElementById('qrActions').classList.add('hidden');
+                document.getElementById('qrDataDisplay').classList.add('hidden');
+                return;
+            }
 
-          const createQR = (text) => {
-            if (!qrContainerRef.current) return;
+            currentQrData = data;
+            createQR(data);
+        }
+
+        function createQR(text) {
+            const container = document.getElementById('qrContainer');
+            container.innerHTML = '';
             
-            try {
-              qrContainerRef.current.innerHTML = '';
-              
-              const canvas = document.createElement('canvas');
-              qrContainerRef.current.appendChild(canvas);
-              
-              const qr = new QRious({
+            const canvas = document.createElement('canvas');
+            container.appendChild(canvas);
+            
+            const qr = new QRious({
                 element: canvas,
                 value: text,
                 size: 300,
                 background: 'white',
                 foreground: 'black',
                 level: 'H'
-              });
-              
-              canvas.className = 'w-full h-auto rounded-xl shadow-lg bg-white';
-              canvas.style.maxWidth = '300px';
-              canvas.style.height = 'auto';
-              
-              if (activeTab === 'url' && logoFile) {
+            });
+            
+            if (activeTab === 'url' && logoFile) {
                 addLogoToQR(canvas);
-              }
-              
-            } catch (error) {
-              console.error('Error creating QR code:', error);
             }
-          };
+            
+            document.getElementById('qrPlaceholder').classList.add('hidden');
+            document.getElementById('qrDisplay').classList.remove('hidden');
+            document.getElementById('qrActions').classList.remove('hidden');
+            document.getElementById('qrDataDisplay').classList.remove('hidden');
+            document.getElementById('qrDataText').textContent = text;
+        }
 
-          const addLogoToQR = (canvas) => {
+        function addLogoToQR(canvas) {
             const ctx = canvas.getContext('2d');
             const img = new Image();
             
-            img.onload = () => {
-              const logoSizePixels = canvas.width * (logoSize / 100);
-              const x = (canvas.width - logoSizePixels) / 2;
-              const y = (canvas.height - logoSizePixels) / 2;
-              
-              ctx.fillStyle = 'white';
-              ctx.beginPath();
-              ctx.arc(canvas.width / 2, canvas.height / 2, logoSizePixels / 2 + 5, 0, 2 * Math.PI);
-              ctx.fill();
-              
-              ctx.drawImage(img, x, y, logoSizePixels, logoSizePixels);
+            img.onload = function() {
+                const logoSizePixels = canvas.width * (logoSize / 100);
+                const x = (canvas.width - logoSizePixels) / 2;
+                const y = (canvas.height - logoSizePixels) / 2;
+                
+                ctx.fillStyle = 'white';
+                ctx.beginPath();
+                ctx.arc(canvas.width / 2, canvas.height / 2, logoSizePixels / 2 + 5, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                ctx.drawImage(img, x, y, logoSizePixels, logoSizePixels);
             };
             
             img.src = logoPreview;
-          };
+        }
 
-          const formatUrl = (url) => {
-            if (!url.trim()) return '';
-            
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-              return 'https://' + url;
-            }
-            return url;
-          };
-
-          const generateVCard = (contact) => {
-            const vcard = `BEGIN:VCARD
-VERSION:3.0
-FN:${contact.firstName} ${contact.lastName}
-N:${contact.lastName};${contact.firstName};;;
-ORG:${contact.organization}
-TEL:${contact.phone}
-EMAIL:${contact.email}
-URL:${contact.url}
-END:VCARD`;
-            return vcard;
-          };
-
-          useEffect(() => {
-            let data = '';
-            
-            switch (activeTab) {
-              case 'url':
-                data = formatUrl(urlInput);
-                break;
-              case 'text':
-                data = textInput;
-                break;
-              case 'contact':
-                if (contactInfo.firstName || contactInfo.lastName || contactInfo.phone || contactInfo.email) {
-                  data = generateVCard(contactInfo);
-                }
-                break;
-              default:
-                data = '';
-            }
-            
-            setQrData(data);
-            generateQRCode(data);
-          }, [activeTab, urlInput, textInput, contactInfo, logoFile, logoPreview, logoSize]);
-
-          const downloadQRCode = () => {
-            if (!qrData) return;
-            
-            const canvas = qrContainerRef.current?.querySelector('canvas');
-            
+        // Download functionality
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            const canvas = document.querySelector('#qrContainer canvas');
             if (canvas) {
-              const link = document.createElement('a');
-              link.download = `qr-code-${activeTab}.png`;
-              link.href = canvas.toDataURL();
-              link.click();
+                const link = document.createElement('a');
+                link.download = `qr-code-${activeTab}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
             }
-          };
+        });
 
-          const copyToClipboard = async () => {
-            if (qrData) {
-              try {
-                await navigator.clipboard.writeText(qrData);
-                setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
-              } catch (err) {
-                console.error('Failed to copy text: ', err);
-              }
+        // Copy functionality
+        document.getElementById('copyBtn').addEventListener('click', async () => {
+            if (currentQrData) {
+                try {
+                    await navigator.clipboard.writeText(currentQrData);
+                    const btn = document.getElementById('copyBtn');
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Copied!`;
+                    btn.style.color = '#059669';
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.style.color = '';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                }
             }
-          };
+        });
 
-          const resetForm = () => {
-            setUrlInput('');
-            setTextInput('');
-            setContactInfo({
-              firstName: '',
-              lastName: '',
-              phone: '',
-              email: '',
-              organization: '',
-              url: ''
-            });
-            setLogoFile(null);
-            setLogoPreview(null);
-            setLogoSize(20);
-            if (logoInputRef.current) {
-              logoInputRef.current.value = '';
-            }
-            setQrData('');
-            if (qrContainerRef.current) {
-              qrContainerRef.current.innerHTML = '';
-            }
-          };
-
-          const handleLogoUpload = (event) => {
-            const file = event.target.files[0];
-            if (file && file.type.startsWith('image/')) {
-              const reader = new FileReader();
-              reader.onload = (e) => {
-                setLogoPreview(e.target.result);
-                setLogoFile(file);
-              };
-              reader.readAsDataURL(file);
-            }
-          };
-
-          const removeLogo = () => {
-            setLogoFile(null);
-            setLogoPreview(null);
-            setLogoSize(20);
-            if (logoInputRef.current) {
-              logoInputRef.current.value = '';
-            }
-          };
-
-          const tabs = [
-            { id: 'url', label: t('urlTab'), icon: Link },
-            { id: 'text', label: t('textTab'), icon: MessageSquare },
-            { id: 'contact', label: t('contactTab'), icon: User }
-          ];
-
-          return React.createElement('div', { className: "min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 p-4" },
-            React.createElement('div', { className: "max-w-4xl mx-auto" },
-              React.createElement('div', { className: "text-center mb-8" },
-                React.createElement('div', { className: "inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl mb-4" },
-                  React.createElement(QrCode, { className: "w-8 h-8 text-white" })
-                ),
-                React.createElement('h1', { className: "text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2" },
-                  t('appTitle')
-                ),
-                React.createElement('p', { className: "text-gray-600 text-lg" }, t('appDescription'))
-              ),
-
-              React.createElement('div', { className: "bg-white rounded-3xl shadow-2xl overflow-hidden" },
-                React.createElement('div', { className: "border-b border-gray-200" },
-                  React.createElement('nav', { className: "flex" },
-                    tabs.map((tab) => {
-                      const IconComponent = tab.icon;
-                      return React.createElement('button', {
-                        key: tab.id,
-                        onClick: () => setActiveTab(tab.id),
-                        className: `flex-1 flex items-center justify-center gap-2 px-6 py-4 text-sm font-medium transition-all duration-200 ${
-                          activeTab === tab.id
-                            ? 'text-purple-600 border-b-2 border-purple-600 bg-purple-50'
-                            : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-                        }`
-                      },
-                        React.createElement(IconComponent, { className: "w-4 h-4" }),
-                        tab.label
-                      );
-                    })
-                  )
-                ),
-
-                React.createElement('div', { className: "p-8" },
-                  React.createElement('div', { className: "grid lg:grid-cols-2 gap-8" },
-                    React.createElement('div', { className: "space-y-6" },
-                      React.createElement('h2', { className: "text-2xl font-semibold text-gray-800 mb-4" },
-                        activeTab === 'url' && t('enterUrl'),
-                        activeTab === 'text' && t('enterText'),
-                        activeTab === 'contact' && t('contactInformation')
-                      ),
-
-                      // URL Input with Logo
-                      activeTab === 'url' && React.createElement('div', { className: "space-y-4" },
-                        React.createElement('div', null,
-                          React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" },
-                            t('websiteUrl')
-                          ),
-                          React.createElement('input', {
-                            type: "url",
-                            value: urlInput,
-                            onChange: (e) => setUrlInput(e.target.value),
-                            placeholder: t('urlPlaceholder'),
-                            className: "w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-                          }),
-                          React.createElement('p', { className: "text-xs text-gray-500 mt-1" },
-                            t('urlHelp')
-                          )
-                        ),
-
-                        // Logo Upload Section
-                        React.createElement('div', null,
-                          React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" },
-                            t('uploadLogo'), ' ',
-                            React.createElement('span', { className: "text-gray-500 text-xs" }, '(', t('optional'), ')')
-                          ),
-                          
-                          !logoPreview ? React.createElement('div', { className: "border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-purple-400 transition-colors duration-200" },
-                            React.createElement(Upload, { className: "w-8 h-8 text-gray-400 mx-auto mb-2" }),
-                            React.createElement('p', { className: "text-sm text-gray-600 mb-2" }, t('logoHelp')),
-                            React.createElement('button', {
-                              type: "button",
-                              onClick: () => logoInputRef.current?.click(),
-                              className: "px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors duration-200 text-sm font-medium"
-                            },
-                              t('uploadLogo')
-                            ),
-                            React.createElement('input', {
-                              ref: logoInputRef,
-                              type: "file",
-                              accept: "image/*",
-                              onChange: handleLogoUpload,
-                              className: "hidden"
-                            })
-                          ) : React.createElement('div', { className: "border border-gray-300 rounded-xl p-4" },
-                            React.createElement('div', { className: "flex items-center justify-between mb-3" },
-                              React.createElement('div', { className: "flex items-center gap-3" },
-                                React.createElement('img', {
-                                  src: logoPreview,
-                                  alt: "Logo preview",
-                                  className: "w-12 h-12 object-contain rounded-lg border border-gray-200"
-                                }),
-                                React.createElement('div', null,
-                                  React.createElement('p', { className: "text-sm font-medium text-gray-700" }, t('logoUploaded')),
-                                  React.createElement('p', { className: "text-xs text-gray-500" }, logoFile?.name)
-                                )
-                              ),
-                              React.createElement('button', {
-                                onClick: removeLogo,
-                                className: "p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors duration-200"
-                              },
-                                React.createElement(X, { className: "w-4 h-4" })
-                              )
-                            ),
-                            
-                            // Logo Size Slider
-                            React.createElement('div', { className: "space-y-2" },
-                              React.createElement('div', { className: "flex items-center justify-between" },
-                                React.createElement('label', { className: "text-sm font-medium text-gray-700" },
-                                  t('logoSize')
-                                ),
-                                React.createElement('span', { className: "text-sm text-gray-500" }, logoSize + '%')
-                              ),
-                              React.createElement('input', {
-                                type: "range",
-                                min: "20",
-                                max: "40",
-                                value: logoSize,
-                                onChange: (e) => setLogoSize(parseInt(e.target.value)),
-                                className: "w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer",
-                                style: {
-                                  background: `linear-gradient(to right, #9333ea 0%, #9333ea ${((logoSize - 20) / 20) * 100}%, #e5e7eb ${((logoSize - 20) / 20) * 100}%, #e5e7eb 100%)`
-                                }
-                              }),
-                              React.createElement('p', { className: "text-xs text-gray-500" }, t('logoSizeHelp'))
-                            )
-                          )
-                        )
-                      ),
-
-                      // Text Input
-                      activeTab === 'text' && React.createElement('div', null,
-                        React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" },
-                          t('textContent')
-                        ),
-                        React.createElement('textarea', {
-                          value: textInput,
-                          onChange: (e) => setTextInput(e.target.value),
-                          placeholder: t('textPlaceholder'),
-                          rows: 4,
-                          className: "w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 resize-none"
-                        })
-                      ),
-
-                      // Contact Form
-                      activeTab === 'contact' && React.createElement('div', { className: "space-y-4" },
-                        React.createElement('div', { className: "grid grid-cols-2 gap-4" },
-                          React.createElement('div', null,
-                            React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" },
-                              t('firstName')
-                            ),
-                            React.createElement('input', {
-                              type: "text",
-                              value: contactInfo.firstName,
-                              onChange: (e) => setContactInfo({...contactInfo, firstName: e.target.value}),
-                              placeholder: t('firstNamePlaceholder'),
-                              className: "w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-                            })
-                          ),
-                          React.createElement('div', null,
-                            React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" },
-                              t('lastName')
-                            ),
-                            React.createElement('input', {
-                              type: "text",
-                              value: contactInfo.lastName,
-                              onChange: (e) => setContactInfo({...contactInfo, lastName: e.target.value}),
-                              placeholder: t('lastNamePlaceholder'),
-                              className: "w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-                            })
-                          )
-                        ),
-                        // Additional contact fields would go here...
-                      ),
-
-                      React.createElement('button', {
-                        onClick: resetForm,
-                        className: "w-full px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium"
-                      },
-                        t('clearAllFields')
-                      )
-                    ),
-
-                    // QR Code Display
-                    React.createElement('div', { className: "flex flex-col items-center space-y-6" },
-                      React.createElement('h2', { className: "text-2xl font-semibold text-gray-800" }, t('generatedQrCode')),
-                      
-                      React.createElement('div', { className: "bg-gray-50 rounded-2xl p-8 w-full max-w-sm" },
-                        qrData ? React.createElement('div', { className: "text-center" },
-                          React.createElement('div', { ref: qrContainerRef, className: "flex justify-center" }),
-                          React.createElement('p', { className: "text-sm text-gray-600 mt-4" },
-                            t('scanQrCode')
-                          )
-                        ) : React.createElement('div', { className: "text-center py-16" },
-                          React.createElement(QrCode, { className: "w-16 h-16 text-gray-300 mx-auto mb-4" }),
-                          React.createElement('p', { className: "text-gray-500" },
-                            t('fillFormPrompt')
-                          )
-                        )
-                      ),
-
-                      qrData && React.createElement('div', { className: "flex gap-4 w-full max-w-sm" },
-                        React.createElement('button', {
-                          onClick: downloadQRCode,
-                          className: "flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-200 font-medium shadow-lg"
-                        },
-                          React.createElement(Download, { className: "w-4 h-4" }),
-                          t('download')
-                        ),
-                        
-                        React.createElement('button', {
-                          onClick: copyToClipboard,
-                          className: "flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium"
-                        },
-                          copied ? React.createElement(React.Fragment, null,
-                            React.createElement(Check, { className: "w-4 h-4 text-green-600" }),
-                            t('copied')
-                          ) : React.createElement(React.Fragment, null,
-                            React.createElement(Copy, { className: "w-4 h-4" }),
-                            t('copyData')
-                          )
-                        )
-                      )
-                    )
-                  )
-                )
-              ),
-
-              React.createElement('div', { className: "text-center mt-8 text-gray-500 text-sm" },
-                React.createElement('p', null, t('footerText'))
-              )
-            )
-          );
-        };
-
-        ReactDOM.render(React.createElement(QRCodeGenerator), document.getElementById('root'));
+        // Initialize
+        updateSliderBackground();
     </script>
 </body>
 </html>
